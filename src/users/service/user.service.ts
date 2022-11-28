@@ -20,5 +20,11 @@ export class UserService {
     });
     const updatedUser = this.users.find((user) => user.id === userData.id);
     return updatedUser;
- }   
+  }
+
+  async getAllUsers(): Promise<IUserEntity[]> {
+    return this.users;
+  }
+
+  
 }

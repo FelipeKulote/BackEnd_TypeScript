@@ -1,3 +1,3 @@
 export interface IUserEntity {
-    id: string
+  id: string;
 }

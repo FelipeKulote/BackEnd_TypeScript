@@ -22,7 +22,7 @@ export class UserRepository {
     });
     return DeletedUser;
   }
-  async findAllUser(): Promise<IUserEntity[]> {
+  async findAllUsers(): Promise<IUserEntity[]> {
     const AllUsers = await this.prisma.user.findMany();
     return AllUsers;
   }

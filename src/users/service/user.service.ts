@@ -2,45 +2,38 @@ import { IUserEntity } from '../entities/user.entity';
 import { UserDto } from './dto/user.dto';
 import { randomUUID } from 'node:crypto';
 import { PartialUserDto } from './dto/partialUser.dto';
+import { UserRepository } from '../userRepository';
 
 export class UserService {
-  private users: IUserEntity[] = [];
+  constructor(private readonly userRepository: UserRepository){}
+
   async createUser(user: UserDto): Promise<IUserEntity> {
     const userEntity = { ...user, id: randomUUID() };
-    this.users.push(userEntity);
-    return userEntity;
+    const createdUser = await this.userRepository.createUser(userEntity);
+    return createdUser;
   }
 
   async updateUser(userData: PartialUserDto): Promise<IUserEntity> {
-    this.users.map((user, index) => {
-      if (user.id === userData.id) {
-        const modifiedUser = Object.assign(user, userData);
-        this.users.splice(index, 1, modifiedUser);
-      }
-    });
-    const updatedUser = this.users.find((user) => user.id === userData.id);
+    const updatedUser = this.userRepository.updateUser(userData);
     return updatedUser;
   }
 
   async getAllUsers(): Promise<IUserEntity[]> {
-    return this.users;
+    return await this.userRepository.findAllUsers()
   }
 
   async deleteUserById(userId: string): Promise<boolean> {
-    const deletedUser = this.users.find((user) => user.id === userId);
-    if (!deletedUser) {
+    try {
+      await this.userRepository.deleteUser(userId);
+      return true;
+    } catch (err) {
+      console.log(err);
       return false;
     }
-    this.users.map((user, index) => {
-      if (user.id === userId) {
-        this.users.splice(index, 1);
-      }
-    });
-    return true;
   }
 
   async getUserById(userId: string): Promise<IUserEntity> {
-    const findedUser = this.users.find((user) => user.id === userId);
-    return findedUser;
+    const foundedUser = this.userRepository.findUserById(userId);
+    return foundedUser;
   }
 }

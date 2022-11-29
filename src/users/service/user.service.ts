@@ -3,7 +3,9 @@ import { UserDto } from './dto/user.dto';
 import { randomUUID } from 'node:crypto';
 import { PartialUserDto } from './dto/partialUser.dto';
 import { UserRepository } from '../userRepository';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository){}
 

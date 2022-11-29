@@ -40,9 +40,10 @@ export class UserService {
   }
 
   async getUserById(userId: string): Promise<IUserEntity> {
-    const findUser = this.users.find((user) => user.id === userId);
-    if (!findUser) {
-      
+    const findedUser = this.users.find((user) => user.id === userId);
+    if (!findedUser) {
+      throw new Error('Usuário não encontrado')
     }
+    return findedUser;
   }
 }

@@ -25,7 +25,7 @@ export class UserController {
     try {
       return await this.service.getUserById(userId);
     } catch (err) {
-      console.log('Usuário não encontrado');
+      console.log(err);
     }
   }
 
